@@ -31,7 +31,7 @@ const zCreateInput = z.object({
 
 const zCredit = z.object({
   body: z.object({
-    amount: z.number().nonpositive(),
+    amount: z.number().nonnegative(),
   }),
   params: z.object({
     userId: zUuidV4String,

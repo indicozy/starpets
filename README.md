@@ -28,10 +28,16 @@ pnpm i
 
 ## Запуск в режиме разработки
 
-```node
+```bash
 pnpm dev
 ```
 
-## Запуск тестера
+## Компиляция и старт
 
-TODO:
+```bash
+pnpm build && pnpm start
+```
+
+## Ньансы
+
+На данный момент sequelize (переписывает typescript)[https://sequelize.org/docs/v6/other-topics/typescript/], поэтому в контроллере юзера приходится делать проверку типов на рантайме. Также пришлось использовать `ts-ignore` для обхода проблем от sequelize.

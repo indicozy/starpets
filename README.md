@@ -41,3 +41,29 @@ pnpm build && pnpm start
 ## Ньансы
 
 На данный момент sequelize (переписывает typescript)[https://sequelize.org/docs/v6/other-topics/typescript/], поэтому в контроллере юзера приходится делать проверку типов на рантайме. Также пришлось использовать `ts-ignore` для обхода проблем от sequelize.
+
+## API
+
+Добавить пользователя с балансом:
+
+```
+POST http://localhost:3000/api/users/create
+{
+  "balance": 10
+}
+```
+
+Получить информацию о пользователе:
+
+```
+GET http://localhost:3000/api/users/:userId
+```
+
+Снять средства от пользователя:
+
+```
+POST http://localhost:3000/api/users/:userId/credit
+{
+  "amount": 10
+}
+```

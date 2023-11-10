@@ -1,10 +1,8 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { User } from "../../databases/sequalize/entity/user.entity";
-import { AnyZodObject, ZodAny, z } from "zod";
+import { AnyZodObject, z } from "zod";
 import { sequelize } from "../../databases/sequalize/sequelize";
-import { QueryTypes } from "sequelize";
 import { validateUuid } from "../../utils/uuid";
-import { decrementIfUserFoundUnsafe } from "../../databases/sequalize/sql/decrementBalance";
 import { Op } from "sequelize";
 
 const sequalizeUserController = Router();

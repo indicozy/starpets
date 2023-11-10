@@ -5,7 +5,7 @@ import type {
   Optional,
 } from "sequelize";
 import { IUser, UserAttributes } from "../model/user.model";
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { UUID, UUIDV4, Model, DataTypes } from "sequelize";
 import { sequelize } from "../sequelize";
 
 type UserCreationAttributes = Optional<UserAttributes, "id">;
@@ -21,10 +21,8 @@ export class User
 User.init(
   {
     id: {
-      // @ts-ignore TODO:
-      type: Sequelize.UUID,
-      // @ts-ignore TODO:
-      defaultValue: Sequelize.UUIDV4,
+      type: UUID,
+      defaultValue: UUIDV4,
       allowNull: false,
       autoIncrement: false,
       primaryKey: true,

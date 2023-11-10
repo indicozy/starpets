@@ -34,13 +34,13 @@ const zCredit = z.object({
     amount: z.number(),
   }),
   params: z.object({
-    id: z.string(),
+    userId: z.string(),
   }),
 });
 
 const zFindById = z.object({
   params: z.object({
-    id: z.string(),
+    userId: z.string(),
   }),
 });
 
@@ -56,18 +56,18 @@ sequalizeUserController
       } = req;
 
       const userNew = await User.create({ balance });
-      const resData = { id: userNew.id, message: "SUCCESS" };
+      const resData = { userId: userNew.id, message: "SUCCESS" };
       res.status(201).send(resData);
     }
   )
 
   .post(
-    "/:id/credit",
+    "/:userId/credit",
     validate(zCredit),
     async (req: z.infer<typeof zCredit>, res: Response) => {
       const {
         body: { amount },
-        params: { id },
+        params: { userId: id },
       } = req;
 
       // SQL injection
@@ -127,11 +127,11 @@ sequalizeUserController
   )
 
   .get(
-    "/:id",
+    "/:userId",
     validate(zFindById),
     async (req: z.infer<typeof zFindById>, res: Response) => {
       const {
-        params: { id },
+        params: { userId: id },
       } = req;
 
       if (!id) {

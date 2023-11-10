@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { User } from "../../databases/sequalize/entity/user.entity";
 import { AnyZodObject, z } from "zod";
 import { sequelize } from "../../databases/sequalize/sequelize";
-import { validateUuid } from "../../utils/uuid";
+import { uuidV4Regex, validateUuid, zUuidV4String } from "../../utils/uuid";
 import { Op } from "sequelize";
 
 const sequalizeUserController = Router();
@@ -31,16 +31,16 @@ const zCreateInput = z.object({
 
 const zCredit = z.object({
   body: z.object({
-    amount: z.number(),
+    amount: z.number().nonpositive(),
   }),
   params: z.object({
-    userId: z.string(),
+    userId: zUuidV4String,
   }),
 });
 
 const zFindById = z.object({
   params: z.object({
-    userId: z.string(),
+    userId: zUuidV4String,
   }),
 });
 

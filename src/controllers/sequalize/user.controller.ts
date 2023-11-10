@@ -25,7 +25,7 @@ const validate =
 
 const zCreateInput = z.object({
   body: z.object({
-    balance: z.number(),
+    balance: z.number().nonnegative(), // больше нуля
   }),
 });
 

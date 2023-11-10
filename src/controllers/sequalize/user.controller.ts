@@ -99,9 +99,6 @@ sequalizeUserController
           return res.status(404).send({ message: "User not found" });
         }
 
-        console.log(userUpdate);
-        console.log(userUpdate[0]);
-
         // На данный момент у sequelize проблемы с тайпскриптом
         // поэтому придется на рантайме переделывать его типы
         const affectedRows = userUpdate[0][1]; // Должен быть number | undefined
@@ -118,7 +115,7 @@ sequalizeUserController
 
         // @ts-ignore
         const user: User = userUpdate[0][0][0]; // Должен быть user
-        console.log(user);
+        // console.log(user); // откомментируйте для подтверждения
         return res
           .status(200)
           .send({ message: "success", balance: user.balance });

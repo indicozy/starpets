@@ -4,52 +4,16 @@ import { AnyZodObject, z } from "zod";
 import { sequelize } from "../../databases/sequalize/sequelize";
 import { uuidV4Regex, validateUuid, zUuidV4String } from "../../utils/uuid";
 import { Op } from "sequelize";
+import { zCreateInput, zCredit, zFindById, zValidate } from "./user.validate";
 
 const sequalizeUserController = Router();
-
-const validate =
-  (schema: AnyZodObject) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await schema.parseAsync({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-        headers: req.headers,
-      });
-      return next();
-    } catch (error) {
-      return res.status(400).json(error);
-    }
-  };
-
-const zCreateInput = z.object({
-  body: z.object({
-    balance: z.number().nonnegative(), // больше нуля
-  }),
-});
-
-const zCredit = z.object({
-  body: z.object({
-    amount: z.number().nonnegative(),
-  }),
-  params: z.object({
-    userId: zUuidV4String,
-  }),
-});
-
-const zFindById = z.object({
-  params: z.object({
-    userId: zUuidV4String,
-  }),
-});
 
 // Приходится писать валидаторы Zod дважды потому что Express не дает инджектнуть типы при мидлвейр
 // Хоть у req тип Request<Params, ResBody, ReqBody, ReqQuery>, я напрямую задаю тип для полной валидации
 sequalizeUserController
   .post(
     "/create",
-    validate(zCreateInput),
+    zValidate(zCreateInput),
     async (req: z.infer<typeof zCreateInput>, res: Response) => {
       const {
         body: { balance },
@@ -63,7 +27,7 @@ sequalizeUserController
 
   .post(
     "/:userId/credit",
-    validate(zCredit),
+    zValidate(zCredit),
     async (req: z.infer<typeof zCredit>, res: Response) => {
       const {
         body: { amount },
@@ -128,7 +92,7 @@ sequalizeUserController
 
   .get(
     "/:userId",
-    validate(zFindById),
+    zValidate(zFindById),
     async (req: z.infer<typeof zFindById>, res: Response) => {
       const {
         params: { userId: id },
